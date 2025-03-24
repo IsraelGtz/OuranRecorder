@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import RRStorageService
 
 @main
 struct OuranRecorderApp: App {
+    let storageService = RRStorageService.shared
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
+        .environment(\.managedObjectContext, storageService.container.viewContext)
     }
 }
