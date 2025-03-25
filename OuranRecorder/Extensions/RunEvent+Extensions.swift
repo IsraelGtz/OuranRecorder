@@ -1,41 +1,13 @@
 //
-//  MainViewModel.swift
+//  File.swift
 //  OuranRecorder
 //
-//  Created by Israel Gutiérrez Castillo on 24.3.2025.
+//  Created by Israel Gutiérrez Castillo on 25.3.2025.
 //
 
+import CoreLocation
 import RRStorageService
 import RunRecorderService
-import SwiftUI
-
-@MainActor
-final class MainViewModel: ObservableObject {
-    @Published var records: [RunRecord] = []
-    
-    init() {}
-    
-    func getRecordsFrom(rawRecords: FetchedResults<RunRecordData>) -> [RunRecord] {
-        Array(rawRecords).compactMap{ RunRecord.init(with: $0) }
-    }
-    
-}
-
-extension RunRecord {
-    convenience init?(with data: RunRecordData) {
-        guard let name = data.name,
-              let start = data.start,
-              let end = data.end,
-              let rawEvents = data.has?.sortedArray(using: []) as? [RunEventData]
-        else {
-            return nil
-        }
-        let events = rawEvents.compactMap { RunEvent(with: $0) }
-        self.init(name: name, start: start, end: end, events: events)
-    }
-}
-
-import CoreLocation
 
 extension RunEvent {
     init?(with data: RunEventData) {
