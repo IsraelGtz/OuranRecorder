@@ -7,13 +7,14 @@
 
 import RRStorageService
 import RunRecorderService
+import Foundation
 
 extension RunRecord {
     convenience init?(with data: RunRecordData) {
         guard let name = data.name,
               let start = data.start,
               let end = data.end,
-              let rawEvents = data.has?.sortedArray(using: []) as? [RunEventData]
+              let rawEvents = data.has?.sortedArray(using: [NSSortDescriptor(key: "date", ascending: true) ]) as? [RunEventData]
         else {
             return nil
         }
