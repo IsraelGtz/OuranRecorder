@@ -12,6 +12,10 @@ extension View {
         modifier(Styles.Title(size: size))
     }
 
+    func subtitleStyle(size: CGFloat? = nil) -> some View {
+        modifier(Styles.Subtitle(size: size))
+    }
+    
     func labelStyle(size: CGFloat? = nil) -> some View {
         modifier(Styles.Label(size: size))
     }

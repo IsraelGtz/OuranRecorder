@@ -19,16 +19,16 @@ struct RecordsListView: View {
             LazyVGrid(columns: gridColumns, spacing: 24) {
                 ForEach(records) { record in
                     NavigationLink {
-                        Text("HERE SHOULD BE THE DETAIL")
+                        RunRecordDetailView(record: record)
                         .navigationTransition(.zoom(sourceID: record.id, in: namespace))
                     } label: {
                         RecordCellView(record: record)
                         .matchedTransitionSource(id: record.id, in: namespace)
                         .contextMenu {
-                            Text("Historical data of 1 year")
+                            Text("Steps chart")
                         } preview: {
-                            //TODO: HERE is gonna be the PREVIEW
-                            Text("PREVIEW")
+                            RecordChart(stepsEvents: record.allStepsEvents, version: .preview)
+                                .padding()
                         }
                     }
                     .scrollTransition { content, phase in

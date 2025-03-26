@@ -20,6 +20,19 @@ enum Styles {
                 .lineLimit(2)
         }
     }
+    
+    struct Subtitle: ViewModifier {
+        @Environment(\.colorScheme) private var colorScheme
+        let size: CGFloat?
+
+        func body(content: Content) -> some View {
+            content
+                .font(Fonts.demiBold(size: size ?? 20).font)
+                .minimumScaleFactor(0.8)
+                .foregroundStyle(colorScheme == .dark ? .white : .black.opacity(0.9))
+                .lineLimit(2)
+        }
+    }
 
     struct Label: ViewModifier {
         @Environment(\.colorScheme) private var colorScheme

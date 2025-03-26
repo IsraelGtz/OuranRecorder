@@ -1,3 +1,12 @@
+//
+//  LabelWithDetailView.swift
+//  OuranRecorder
+//
+//  Created by Israel Gutiérrez Castillo on 25.3.2025.
+//
+
+import SwiftUI
+
 struct LabelWithDetailView<DetailView: View>: View {
     let label: String
     let detail: String?
