@@ -15,7 +15,7 @@ enum Styles {
         func body(content: Content) -> some View {
             content
                 .font(Fonts.boldItalic(size: size ?? 20).font)
-                .minimumScaleFactor(0.8)
+                .minimumScaleFactor(0.5)
                 .foregroundStyle(colorScheme == .dark ? .white : .black.opacity(0.9))
                 .lineLimit(2)
         }
@@ -42,7 +42,7 @@ enum Styles {
             content
                 .font(Fonts.demiBold(size: size ?? 15).font)
                 .minimumScaleFactor(0.55)
-                .foregroundStyle(colorScheme == .dark ? .white : .black.opacity(0.65))
+                .foregroundStyle(colorScheme == .dark ? .white : .black.opacity(0.85))
                 .lineLimit(1)
         }
     }

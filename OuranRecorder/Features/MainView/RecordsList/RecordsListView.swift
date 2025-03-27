@@ -9,9 +9,11 @@ import RunRecorderService
 import SwiftUI
 
 struct RecordsListView: View {
+    @Environment(\.managedObjectContext) private var context
     @Namespace private var namespace
     let records: [RunRecord]
     @Binding var selectedRecord: RunRecord?
+    
     private let gridColumns = Array(repeating: GridItem(.adaptive(minimum: 150, maximum: 175), spacing: 24), count: 2)
 
     var body: some View {

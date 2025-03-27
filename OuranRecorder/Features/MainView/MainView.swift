@@ -11,7 +11,7 @@ import SwiftUI
 
 struct MainView: View {
     @Environment(\.managedObjectContext) private var context
-    @FetchRequest(sortDescriptors: []) private var rawRecords: FetchedResults<RunRecordData>
+    @FetchRequest(sortDescriptors: [.init(key: "start", ascending: false)]) private var rawRecords: FetchedResults<RunRecordData>
     @StateObject private var viewModel = MainViewModel()
     @State var selectedRecord: RunRecord? = nil
     @State private var isNewRecordViewPresented: Bool = false
@@ -29,6 +29,7 @@ struct MainView: View {
                         isNewRecordViewPresented = true
                     } label: {
                         Text("Create new record")
+                            .descriptionStyle(size: 18, color: .white)
                             .padding()
                             .foregroundColor(.white)
                             .background(

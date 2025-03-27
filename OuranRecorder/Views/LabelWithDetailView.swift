@@ -44,7 +44,6 @@ struct LabelWithDetailView<DetailView: View>: View {
             } else {
                 EmptyView()
             }
-            
         }
     }
 }

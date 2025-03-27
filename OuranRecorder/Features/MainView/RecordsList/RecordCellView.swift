@@ -45,7 +45,7 @@ struct RecordCellView: View {
                 Text("steps")
                     .titleStyle(size: 14)
             }
-        }
+        }.padding(.horizontal, 4)
     }
     
     @ViewBuilder
