@@ -21,7 +21,7 @@ struct RecordsListView: View {
             LazyVGrid(columns: gridColumns, spacing: 24) {
                 ForEach(records) { record in
                     NavigationLink {
-                        RunRecordDetailView(record: record)
+                        RunRecordView(context: context, runRecord: record)
                         .navigationTransition(.zoom(sourceID: record.id, in: namespace))
                     } label: {
                         RecordCellView(record: record)

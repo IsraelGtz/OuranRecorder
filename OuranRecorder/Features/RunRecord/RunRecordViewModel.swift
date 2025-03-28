@@ -14,23 +14,8 @@ import SwiftUI
 
 @MainActor
 final class RunRecordViewModel: ObservableObject {
-    @Published var name: String = ""
-    @Published var steps: Int = 0
-    @Published var duration: TimeInterval = 0.0
-    @Published var distance: Double = 0.0
-    @Published var currentCadence: Double = 0.0
-    @Published var currentPace: Double = 0.0
-    @Published var averagePace: Double = 0.0
-    @Published var pace: Double = 0.0
-    @Published var floorAscended: Int = 0
-    @Published var floorDescended: Int = 0
-    @Published var latitude: Double = 0.0
-    @Published var longitude: Double = 0.0
-    @Published var start: Date? = nil
-    @Published var end: Date? = nil
+    @Published var summary: RunSummary
     @Published var status: RunRecorderServiceStatus = .waiting
-    @Published var allLocationEvents: [LocationEvent] = []
-    @Published var allStepsEvents: [StepsEvent] = []
     
     //Properties related to record a run
     @ObservedObject private var recorderService =  RunRecorderServiceImpl()
@@ -38,22 +23,26 @@ final class RunRecordViewModel: ObservableObject {
     private let context: NSManagedObjectContext
     
     init(
-        context: NSManagedObjectContext
+        context: NSManagedObjectContext,
+        summary: RunSummary
     ) {
         self.context = context
+        self.summary = summary
     }
     
     func startNewRecord() {
         startObserving()
         recorderService.startNewRecord()
-        name = recorderService.name
-        start = recorderService.start
+        withAnimation {
+            summary.name = recorderService.name
+            summary.start = recorderService.start
+        }
     }
     
     func stopNewRecord() {
         recorderService.stopRecording()
         withAnimation {
-            end = recorderService.end
+            summary.end = recorderService.end
         }
     }
     
@@ -85,28 +74,28 @@ final class RunRecordViewModel: ObservableObject {
         withAnimation {
             switch event {
             case .steps(let steps, let date):
-                self.steps = steps
-                allStepsEvents.append(StepsEvent(steps: steps, date: date))
+                summary.steps = steps
+                summary.allStepsEvents.append(StepsEvent(steps: steps, date: date))
             case .distance(let distance, _):
-                self.distance = distance
+                summary.distance = distance
             case .duration(let duration):
-                self.duration = duration
+                summary.duration = duration
             case .currentCadence(let currenCadence, _):
-                self.currentCadence = currenCadence
+                summary.currentCadence = currenCadence
             case .currentPace(let currentPace, _):
-                self.currentPace = currentPace
+                summary.currentPace = currentPace
             case .pace(let pace, _):
-                self.pace = pace
+                summary.pace = pace
             case .averagePace(let averagePace, _):
-                self.averagePace = averagePace
+                summary.averagePace = averagePace
             case .floorAscended(let floorAscended, _):
-                self.floorAscended = floorAscended
+                summary.floorAscended = floorAscended
             case .floorDescended(let floorDescended, _):
-                self.floorDescended = floorDescended
+                summary.floorDescended = floorDescended
             case .location(let location, let date):
-                self.latitude = location.latitude
-                self.longitude = location.longitude
-                allLocationEvents.append(LocationEvent(location: location, date: date))
+                summary.latitude = location.latitude
+                summary.longitude = location.longitude
+                summary.allLocationEvents.append(LocationEvent(location: location, date: date))
             }
         }
     }

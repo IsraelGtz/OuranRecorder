@@ -28,7 +28,7 @@ struct MainView: View {
                     Button {
                         isNewRecordViewPresented = true
                     } label: {
-                        Text("Create new record")
+                        Text("Go recording!")
                             .descriptionStyle(size: 18, color: .white)
                             .padding()
                             .foregroundColor(.white)

@@ -52,7 +52,7 @@ struct RecordCellView: View {
     private var distanceAndDateView: some View {
         VStack(spacing: 12) {
             HStack(alignment: .lastTextBaseline, spacing: 2) {
-                Text(record.totalDistance, format: .number.precision(.fractionLength(1)))
+                Text(record.distance, format: .number.precision(.fractionLength(1)))
                     .descriptionStyle(size: 18)
                     .lineLimit(1)
                 Text("m")
