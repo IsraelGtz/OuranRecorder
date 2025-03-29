@@ -47,7 +47,7 @@ struct RunRecordView: View {
                                 RecordMap(locations: viewModel.summary.allLocationEvents.map{ $0.location })
                                     .padding(.bottom, 4)
                                     .frame(width: proxy.size.width, height: proxy.size.height * 0.5)
-                                    .transition(.scale.combined(with: .blurReplace))
+                                  //.transition(.scale.combined(with: .blurReplace)) //this crash the app
                             }
                             if !viewModel.summary.allStepsEvents.isEmpty {
                                 RecordChart(
