@@ -17,9 +17,19 @@ struct RecordSummaryInfoView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Run information")
-                .subtitleStyle(size: 22)
-                .padding(.bottom, -4)
+                HStack(alignment: .lastTextBaseline) {
+                    Text("Run information")
+                        .subtitleStyle(size: 22)
+                        .padding(.bottom, -4)
+                    Spacer()
+                    HStack(alignment: .lastTextBaseline, spacing: 4) {
+                        Text(TimeInterval.durationString(from: info.duration))
+                            .subtitleStyle(size: 18)
+                        Text("hours")
+                            .labelStyle(size: 12)
+                    }
+                    .padding(.trailing, -8)
+                }
                 Group {
                     LabelWithDetailView(label: "Distance:") {
                         Text(info.distance, format: .number.precision(.fractionLength(2)))

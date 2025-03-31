@@ -11,6 +11,7 @@ import SwiftUI
 @MainActor
 struct SummaryInfo {
     var distance: Double
+    var duration: TimeInterval
     var currentCadence: Double? = nil
     var averageCadence: Double? = nil
     var pace: Double? = nil
@@ -25,6 +26,7 @@ struct SummaryInfo {
     
     init(with summary: RunSummary) {
         distance = summary.distance
+        duration = summary.duration
         currentCadence = summary.currentCadence
         averageCadence = summary.averagePace
         pace = summary.pace

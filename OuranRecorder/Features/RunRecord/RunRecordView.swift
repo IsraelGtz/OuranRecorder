@@ -14,6 +14,12 @@ struct RunRecordView: View {
     @State private var isRecordAnimating: Bool = false
     @State private var recordName: String = ""
     private let areRecordActionsEnabled: Bool
+    private var isTextfieldShown: Bool {
+        areRecordActionsEnabled
+    }
+    private var isNameTextfieldEnabled: Bool {
+        viewModel.status == .recording
+    }
     
     ///Passing a run record will show it's info
     init(
@@ -38,8 +44,6 @@ struct RunRecordView: View {
                     VStack(spacing: 12) {
                         Group {
                             headerView
-                            .padding(.bottom, -12)
-                            Divider()
                             RecordSummaryInfoView(with: viewModel.summary)
                             .frame(width: proxy.size.width)
                             .padding(.bottom, 4)
@@ -52,7 +56,7 @@ struct RunRecordView: View {
                             if !viewModel.summary.allStepsEvents.isEmpty {
                                 RecordChart(
                                     stepsEvents: viewModel.summary.allStepsEvents,
-                                    title: "Current steps",
+                                    title: "Steps by time",
                                     height: proxy.size.height * 0.35
                                 )
                                 .padding(.bottom, 18)
@@ -78,19 +82,30 @@ struct RunRecordView: View {
     
     @ViewBuilder
     private var headerView: some View {
-        HStack(alignment: .lastTextBaseline) {
-            TextField(viewModel.summary.name, text: $recordName)
-            .titleStyle(size: 28)
-            .onSubmit {
-                viewModel.changeRecordName(with: recordName)
-            }.submitLabel(.done)
-            Spacer()
-            HStack(alignment: .lastTextBaseline, spacing: 4) {
-                Text(viewModel.summary.steps, format: .number)
-                    .descriptionStyle(size: 24)
-                Text("steps")
-                    .labelStyle(size: 12)
+        VStack {
+            HStack(alignment: .lastTextBaseline) {
+                if isTextfieldShown {
+                    TextField(viewModel.summary.name, text: $recordName)
+                        .titleStyle(size: 28)
+                        .allowsHitTesting(isNameTextfieldEnabled)
+                        .onSubmit {
+                            viewModel.changeRecordName(with: recordName)
+                        }
+                        .submitLabel(.done)
+                } else {
+                    Text(viewModel.summary.name)
+                        .titleStyle(size: 28)
+                }
+                Spacer()
+                HStack(alignment: .lastTextBaseline, spacing: 4) {
+                    Text(viewModel.summary.steps, format: .number)
+                        .descriptionStyle(size: 24)
+                    Text("steps")
+                        .labelStyle(size: 12)
+                }
             }
+            .padding(.bottom, -12)
+            Divider()
         }
     }
     

@@ -24,7 +24,7 @@ struct RecordMap: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Current track")
+            Text("Track")
             .subtitleStyle(size: 22)
             .padding(.bottom, -4)
             Map(initialPosition: initialPosition) {
