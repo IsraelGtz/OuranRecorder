@@ -16,6 +16,7 @@ import SwiftUI
 final class RunRecordViewModel: ObservableObject {
     @Published var summary: RunSummary
     @Published var status: RunRecorderServiceStatus = .waiting
+    @Published var error: Error? = nil
     
     //Properties related to record a run
     @ObservedObject private var recorderService =  RunRecorderServiceImpl()
@@ -67,7 +68,15 @@ final class RunRecordViewModel: ObservableObject {
             guard let self else { return }
             self.status = status
         }
-        cancellables.append(contentsOf: [lastEventCancellable, statusCancellable])
+        let errorCancellable = recorderService.$error.sink { [weak self] error in
+            guard let self,
+                  let error
+            else {
+                return
+            }
+            self.error = error
+        }
+        cancellables.append(contentsOf: [lastEventCancellable, statusCancellable, errorCancellable])
     }
     
     private func processEvent(_ event: RunEvent) {

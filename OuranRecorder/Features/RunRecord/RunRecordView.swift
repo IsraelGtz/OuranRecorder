@@ -45,6 +45,11 @@ struct RunRecordView: View {
                     VStack(spacing: 12) {
                         Group {
                             headerView
+                            if let error = viewModel.error {
+                                //Not the best way to handle errors! :P
+                                Text(error.localizedDescription)
+                                .subtitleStyle(size: 16)
+                            }
                             RecordSummaryInfoView(with: viewModel.summary)
                             .frame(width: proxy.size.width)
                             .padding(.bottom, 4)
@@ -52,7 +57,7 @@ struct RunRecordView: View {
                                 RecordMap(locations: viewModel.summary.allLocationEvents.map{ $0.location })
                                     .padding(.bottom, 4)
                                     .frame(width: proxy.size.width, height: proxy.size.height * 0.5)
-                                  //.transition(.scale.combined(with: .blurReplace)) //this crash the app
+                                    //.transition(.scale.combined(with: .blurReplace)) //This line seems to make the app crhashes randomly
                             }
                             if !viewModel.summary.allStepsEvents.isEmpty {
                                 RecordChart(
@@ -120,16 +125,16 @@ struct RunRecordView: View {
                     isRecordAnimating = true
                 } label: {
                     Image(systemName: "record.circle")
-                        .font(.system(size: 36))
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(
-                            RoundedRectangle(
-                                cornerRadius: 20,
-                                style: .continuous
-                            )
-                            .fill(.red)
+                    .font(.system(size: 36))
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(
+                        RoundedRectangle(
+                            cornerRadius: 20,
+                            style: .continuous
                         )
+                        .fill(.red.gradient)
+                    )
                 }
             case .recording:
                 Button {
@@ -137,18 +142,18 @@ struct RunRecordView: View {
                     isRecordAnimating = false
                 } label: {
                     Image(systemName: "record.circle")
-                        .font(.system(size: 36))
-                        .padding()
-                        .scaleEffect(1.15)
-                        .symbolEffect(.bounce, isActive: isRecordAnimating)
-                        .foregroundColor(.white)
-                        .background(
-                            RoundedRectangle(
-                                cornerRadius: 20,
-                                style: .continuous
-                            )
-                            .fill(.red)
+                    .font(.system(size: 36))
+                    .padding()
+                    .scaleEffect(1.15)
+                    .symbolEffect(.bounce, isActive: isRecordAnimating)
+                    .foregroundColor(.white)
+                    .background(
+                        RoundedRectangle(
+                            cornerRadius: 20,
+                            style: .continuous
                         )
+                        .fill(.red.gradient)
+                    )
                 }
             case .stopped:
                 Button {
@@ -156,16 +161,16 @@ struct RunRecordView: View {
                     isRecordAnimating = false
                 } label: {
                     Image(systemName: "folder.circle")
-                        .font(.system(size: 36))
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(
-                            RoundedRectangle(
-                                cornerRadius: 20,
-                                style: .continuous
-                            )
-                            .fill(.green)
+                    .font(.system(size: 36))
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(
+                        RoundedRectangle(
+                            cornerRadius: 20,
+                            style: .continuous
                         )
+                        .fill(.cyan.gradient)
+                    )
                 }
             case .saved:
                 EmptyView()
