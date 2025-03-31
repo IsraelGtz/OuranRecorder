@@ -18,7 +18,8 @@ struct RunRecordView: View {
         areRecordActionsEnabled
     }
     private var isNameTextfieldEnabled: Bool {
-        viewModel.status == .recording
+        viewModel.status == .recording ||
+        viewModel.status == .stopped
     }
     
     ///Passing a run record will show it's info
