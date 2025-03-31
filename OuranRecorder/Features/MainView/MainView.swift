@@ -15,40 +15,67 @@ struct MainView: View {
     @StateObject private var viewModel = MainViewModel()
     @State var selectedRecord: RunRecord? = nil
     @State private var isNewRecordViewPresented: Bool = false
-    var records: [RunRecord] = []
     
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
-                RecordsListView(
-                    records: viewModel.getRecordsFrom(rawRecords: rawRecords),
-                    selectedRecord: $selectedRecord
-                )
-                .safeAreaInset(edge: .bottom) {
-                    Button {
-                        isNewRecordViewPresented = true
-                    } label: {
-                        Text("Go recording!")
-                            .descriptionStyle(size: 18, color: .white)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(
-                                RoundedRectangle(
-                                    cornerRadius: 20,
-                                    style: .continuous
-                                )
-                                .fill(.gray)
-                            )
-                    }
-                    .navigationDestination(isPresented: $isNewRecordViewPresented) {
-                        RunRecordView(context: context)
-                    }
-                    .padding(.top, 12)
+                if rawRecords.isEmpty {
+                    noRecordsView
+                } else {
+                    recordsView
                 }
             }
             .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
             .navigationTitle("Ōuran Recorder")
         }
+    }
+    
+    @ViewBuilder
+    private var noRecordsView: some View {
+        VStack(alignment: .center, spacing: 6) {
+            Spacer()
+            Text("There are not records to display")
+            Text("Please start recording one! 🤘")
+            Spacer()
+        }
+        .subtitleStyle(size: 18)
+        .safeAreaInset(edge: .bottom) {
+            recordButton
+        }
+    }
+    
+    @ViewBuilder
+    private var recordsView: some View {
+        RecordsListView(
+            records: viewModel.getRecordsFrom(rawRecords: rawRecords),
+            selectedRecord: $selectedRecord
+        )
+        .safeAreaInset(edge: .bottom) {
+            recordButton
+        }
+    }
+    
+    @ViewBuilder
+    private var recordButton: some View {
+        Button {
+            isNewRecordViewPresented = true
+        } label: {
+            Text("Go recording!")
+                .descriptionStyle(size: 18, color: .white)
+                .padding()
+                .foregroundColor(.white)
+                .background(
+                    RoundedRectangle(
+                        cornerRadius: 20,
+                        style: .continuous
+                    )
+                    .fill(.gray)
+                )
+        }
+        .navigationDestination(isPresented: $isNewRecordViewPresented) {
+            RunRecordView(context: context)
+        }
+        .padding(.top, 12)
     }
 }
 
