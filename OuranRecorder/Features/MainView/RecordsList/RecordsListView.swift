@@ -27,7 +27,7 @@ struct RecordsListView: View {
                         RecordCellView(record: record)
                         .matchedTransitionSource(id: record.id, in: namespace)
                         .contextMenu {
-                            Text("Steps chart")
+                            Text("Steps by time chart")
                         } preview: {
                             RecordChart(stepsEvents: record.allStepsEvents, version: .preview)
                                 .padding()
