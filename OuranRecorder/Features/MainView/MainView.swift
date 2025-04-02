@@ -80,5 +80,8 @@ struct MainView: View {
 }
 
 #Preview {
+    let storageService = RRStorageService.shared
+    
     MainView()
+    .environment(\.managedObjectContext, storageService.container.viewContext)
 }
